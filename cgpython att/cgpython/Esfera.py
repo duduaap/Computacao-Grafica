@@ -5,10 +5,12 @@ import math
 from Vetor import Vetor
 
 class Esfera:
-    def __init__(self, rEsfera, CenterEsf, EsfColor):
+    def __init__(self, rEsfera, CenterEsf, material, m, tipo):
         self.rEsfera = rEsfera
         self.CenterEsf = CenterEsf
-        self.EsfColor = EsfColor
+        self.material = material
+        self.m = m
+        self.tipo = tipo
         return
         
     def intersecaoRaioEsfera(self,Raio1):
@@ -37,15 +39,12 @@ class Esfera:
             pt1 = Operacoes.EquacaoReta(t1,Raio1)
         else:
             pt1 = math.inf
-        result = (pt1, self)
+        result = pt1
         return result
-        
+
+    def Calcular_Normal(self,ponto):
+        return Operacoes.NormalizaVetor(Operacoes.Subtracao_vetores(ponto,getattr(self,"CenterEsf")))
+
     
     
-    def DecideCor(self, Raio1):
-        bgColor  = Vetor(100,100,100)
-        t = Esfera.intersecaoRaioEsfera(self,Raio1)
-        if(t[0] == math.inf):
-            return bgColor
-        else:
-            return getattr(t[1],"EsfColor")
+    
