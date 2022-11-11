@@ -4,7 +4,7 @@ from Plano import Plano
 from Luz_Pontual import Luz_Pontual
 def listar_objetos():
 
-    esfera1 = Esfera(40, Vetor(0, 0, -100), Vetor(0.8, 0.3, 0.2),10,"esfera")
+    esfera1 = Esfera(40, Vetor(0, 0, -100), Vetor(0.7, 0.2, 0.2),10,"esfera")
     
     planoChao = Plano(Vetor(0,-40,0),Vetor(0,1,0), Vetor(0.2, 0.7, 0.2),1,"plano")
     

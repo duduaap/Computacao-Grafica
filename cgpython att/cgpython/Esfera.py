@@ -16,7 +16,7 @@ class Esfera:
     def intersecaoRaioEsfera(self,Raio1):
         posicaoOlhoObservador = getattr(Raio1, 'Origem')
         Dir = getattr(Raio1, 'Direcao')
-        w = Operacoes.Subtracao_vetores(self.CenterEsf, posicaoOlhoObservador)
+        w = Operacoes.Subtracao_vetores(posicaoOlhoObservador,self.CenterEsf)
         a = Operacoes.ProdutoEscalar(Dir, Dir)
         b = 2*Operacoes.ProdutoEscalar(w, Dir)
         c = Operacoes.ProdutoEscalar(w, w) - pow(self.rEsfera,2) 

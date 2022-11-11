@@ -42,12 +42,12 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
         Le = Vetor(0,0,0)
         
         for luz in list_luz:
-            int_luz = Raio(t, luz.posicao)
+            int_luz = Raio(t, NormalizaVetor(Subtracao_vetores(luz.posicao,t)))
             cor = True
             for obj in list_obj:
                 aux2 = intercecao(obj,int_luz)
                 if aux2 != math.inf:
-                    if DistanciaEntrePontos(aux2, t) < DistanciaEntrePontos(t,luz.posicao):
+                    if DistanciaEntrePontos(aux2, t) < DistanciaEntrePontos(t,luz.posicao) and DistanciaEntrePontos(aux2, t) > 0.0001:
                         cor = False
             
             if cor != False:

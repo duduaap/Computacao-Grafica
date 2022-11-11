@@ -25,7 +25,7 @@ def rayCasting():
       for c in range (nCol):
          x = -(janela.wJanela/2) + (Dx/2) + (Dx*c)
          y = (janela.hJanela/2) - (Dy/2) - (Dy*l)
-         PontoTela = Vetor(x, y, janela.dJanela)
+         PontoTela = Operacoes.NormalizaVetor(Vetor(x, y, janela.dJanela))
          Raio2 = Raio(observer, PontoTela)
          objint = False
          distanciaorig = 10000
