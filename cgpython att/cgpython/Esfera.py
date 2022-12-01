@@ -2,7 +2,6 @@ from asyncio.windows_events import NULL
 import Operacoes
 import numpy as np
 import math
-from Vetor import Vetor
 
 class Esfera:
     def __init__(self, rEsfera, CenterEsf, material, m, tipo):
