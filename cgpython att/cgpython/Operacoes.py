@@ -6,8 +6,12 @@ from Raio import Raio
 def Ponto(x, y, z):
     return {'x': x, 'y': y, 'z': z}
 
-def ProdutoVetorial(Vector, Vector2):
-    return(np.cross(Vector, Vector2))
+def ProdutoVetorial(vetor_A, vetor_B):
+    x = vetor_A.y *vetor_B.z - vetor_A.z*vetor_B.y
+    y = vetor_A.z*vetor_B.x - vetor_A.x*vetor_B.z
+    z = vetor_A.x *vetor_B.y - vetor_A.y*vetor_B.x
+    r = Vetor(x,y,z)
+    return r
 
 def ProdutoEscalar(v_1, v):
     return ((getattr(v_1, 'x')) * (getattr(v, 'x')) + (getattr(v_1, 'y')) * (getattr(v, 'y')) + (getattr(v_1, 'z')) * (getattr(v, 'z')))
@@ -51,6 +55,7 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
                         cor = False
             
             if cor != False:
+                
                 vetor_direcao = getattr(Raio1,"Direcao")
                 n = objeto.Calcular_Normal(t)
                 l = NormalizaVetor(Subtracao_vetores(getattr(luz,"posicao"),t))

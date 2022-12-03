@@ -3,7 +3,7 @@ import math
 class Cone:
     def __init__(self,CentroBase,RaioBase,Altura,direcao,material,m,tipo):
         h_dc = Operacoes.Vetor_escalar(direcao,Altura )
-        v = Operacoes.Soma_vetores(CentroBase, h_dc)
+        self.v = Operacoes.Soma_vetores(CentroBase, h_dc)
         self.CentroBase = CentroBase
         self.RaioBase = RaioBase
         self.Altura = Altura
@@ -14,9 +14,12 @@ class Cone:
         return
 
 
-    def Calcular_Normal():
-        
-        return
+    def Calcular_Normal(self,ponto):
+        w2 = Operacoes.Subtracao_vetores(self.v,ponto)
+        Nt = Operacoes.ProdutoVetorial(w2,self.direcao)
+        N = Operacoes.ProdutoVetorial(w2,Nt)
+        normal = Operacoes.NormalizaVetor(N)
+        return normal
 
     def IntercecaoRaioCone(self, raio):
         observer = raio.Origem
@@ -26,15 +29,15 @@ class Cone:
 
         cos2teta = (self.Altura*self.Altura)/(self.RaioBase*self.RaioBase + self.Altura*self.Altura)
 
-        dr_dc = Operacoes.Produto_escalar(D, self.direcao)
-        dr_dr = Operacoes.Produto_escalar(D,D)
-        w_dc = Operacoes.Produto_escalar(w, self.direcao)
+        dr_dc = Operacoes.ProdutoEscalar(D, self.direcao)
+        dr_dr = Operacoes.ProdutoEscalar(D,D)
+        w_dc = Operacoes.ProdutoEscalar(w, self.direcao)
     
         a = dr_dc * dr_dc - dr_dr*cos2teta
-        b_primeira_parte = Operacoes.Produto_escalar(w, D)* cos2teta
+        b_primeira_parte = Operacoes.ProdutoEscalar(w, D)* cos2teta
         b_segunda_parte = w_dc* dr_dc
         b = 2 * (b_primeira_parte - b_segunda_parte)
-        c = w_dc * w_dc - Operacoes.Produto_escalar(w,w) * cos2teta
+        c = w_dc * w_dc - Operacoes.ProdutoEscalar(w,w) * cos2teta
 
         delta = b * b - 4* a * c
 
@@ -60,5 +63,5 @@ class Cone:
         if(t1 < 0 and t2 > 0):
             pt1 = Operacoes.EquacaoReta(t2,raio)
         else:
-            t1 = Operacoes.EquacaoReta(t1,raio)
+            pt1 = Operacoes.EquacaoReta(t1,raio)
         return pt1

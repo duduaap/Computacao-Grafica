@@ -5,5 +5,8 @@ def intercecao(objeto,raio):
         pt1 = objeto.intersecaoRaioEsfera(raio)
     if objeto.tipo == "plano":
         pt1 = objeto.IntercecaoPlano(raio)
-    
+    if objeto.tipo == "cilindro":
+        pt1 = objeto.IntercecaoRaioCilindro(raio)
+    if objeto.tipo == "cone":
+        pt1 = objeto.IntercecaoRaioCone(raio)
     return pt1
