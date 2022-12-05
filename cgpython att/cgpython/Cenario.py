@@ -13,16 +13,16 @@ def listar_objetos():
     
     planoParede = Plano(Vetor(0,0,-200),Vetor(0,0,1), Vetor(0.3, 0.3, 0.7),1,"plano")
     
-    cilindro1 = Cilindro(Vetor(0,0,-100), 13, 120, Vetor(-1/sqrt(3), 1/sqrt(3), -1/sqrt(3)),Vetor( 0.8, 0.3, 0.2),1,"cilindro")
+    cilindro1 = Cilindro(Vetor(0,0,-100), 13, 120, Vetor(-1/sqrt(3), 1/sqrt(3), -1/sqrt(3)),Vetor( 0.8, 0.3, 0.2),10,"cilindro")
     
-    cone1 = Cone(Vetor(0, 120, -100),60,20,Vetor(-1/sqrt(3), 1/sqrt(3), -1/sqrt(3)),Vetor( 0.8, 0.3, 0.2),1,"cone")
+    ##cone1 = Cone(Vetor(0, 60, -100),60,20,Vetor(-1/sqrt(3), 1/sqrt(3), -1/sqrt(3)),Vetor( 0.8, 0.3, 0.2),10,"cone")
     
     lista_obj = []
     lista_obj.append(esfera1)
     lista_obj.append(planoParede)
     lista_obj.append(planoChao)
     lista_obj.append(cilindro1)
-    lista_obj.append(cone1)
+    ##lista_obj.append(cone1)
 
     return lista_obj
 

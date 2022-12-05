@@ -7,7 +7,7 @@ class Cone:
         self.CentroBase = CentroBase
         self.RaioBase = RaioBase
         self.Altura = Altura
-        self.direcao = direcao
+        self.direcao = Operacoes.NormalizaVetor(direcao)
         self.material = material
         self.m = m
         self.tipo = tipo
@@ -33,22 +33,17 @@ class Cone:
         dr_dr = Operacoes.ProdutoEscalar(D,D)
         w_dc = Operacoes.ProdutoEscalar(w, self.direcao)
     
-        a = dr_dc * dr_dc - dr_dr*cos2teta
+        a = (dr_dc * dr_dc) - (dr_dr*cos2teta)
         b_primeira_parte = Operacoes.ProdutoEscalar(w, D)* cos2teta
         b_segunda_parte = w_dc* dr_dc
         b = 2 * (b_primeira_parte - b_segunda_parte)
         c = w_dc * w_dc - Operacoes.ProdutoEscalar(w,w) * cos2teta
 
-        delta = b * b - 4* a * c
+        delta = (pow(b,2) - (4* a * c))
 
         if(a==0):
             if(b==0):
                 return math.inf
-            t1 = -c / 2*b
-            pt1 = Operacoes.EquacaoReta(t1,raio)
-            return pt1
-    
-        
         if(delta < 0):
             return math.inf
         
@@ -64,4 +59,12 @@ class Cone:
             pt1 = Operacoes.EquacaoReta(t2,raio)
         else:
             pt1 = Operacoes.EquacaoReta(t1,raio)
+            
+        w2 = Operacoes.Subtracao_vetores(pt1,self.v)
+        aux3 = Operacoes.ProdutoEscalar(w2,self.direcao)
+        
+        if aux3 > self.Altura or aux3 < 0:
+            
+            return math.inf   
+        
         return pt1

@@ -8,7 +8,7 @@ class Cilindro:
         self.CentroBase = CentroBase
         self.RaioBase = RaioBase
         self.Altura = Altura
-        self.direcao = direcao
+        self.direcao = Operacoes.NormalizaVetor(direcao)
         self.material = material
         self.m = m
         self.tipo = tipo
@@ -39,7 +39,7 @@ class Cilindro:
         b = 2*Operacoes.ProdutoEscalar(v, w)
         c = Operacoes.ProdutoEscalar(v, v) - (self.RaioBase * self.RaioBase)
     
-        delta = b * b - 4* a * c
+        delta = (pow(b,2) - (4* a * c))
   
         if(delta < 0):
             return math.inf
@@ -49,7 +49,13 @@ class Cilindro:
     
         if(t1 < t2):
             t2 = t1
+
         pt1 = Operacoes.EquacaoReta(t2,raio1)
-        return  pt1        
+        w = Operacoes.Subtracao_vetores(pt1,self.CentroBase)
+        aux3 = Operacoes.ProdutoEscalar(w,self.direcao)
+        
+        if aux3 > self.Altura or aux3 < 0:
+            return math.inf
+        return  pt1
     
     
