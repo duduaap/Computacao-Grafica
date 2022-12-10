@@ -23,7 +23,7 @@ class Cilindro:
 
     def IntercecaoRaioCilindro(self, raio1):
         D = raio1.Direcao
-        posicaoOlhoObservador = raio1.Origem
+        origem = raio1.Origem
         prod_escalar = Operacoes.ProdutoEscalar(D, self.direcao)
     
         mult = Operacoes.Vetor_escalar(self.direcao, prod_escalar )
@@ -31,9 +31,9 @@ class Cilindro:
         w = Operacoes.Subtracao_vetores(D, mult)
 
  
-        v_primeiro = Operacoes.Subtracao_vetores(posicaoOlhoObservador, self.CentroBase )
-        v_segundo = Operacoes.Vetor_escalar(self.direcao,Operacoes.ProdutoEscalar(v_primeiro, self.direcao) ) 
-        v = Operacoes.Subtracao_vetores(v_primeiro, v_segundo)
+        v1 = Operacoes.Subtracao_vetores(origem, self.CentroBase )
+        v2 = Operacoes.Vetor_escalar(self.direcao,Operacoes.ProdutoEscalar(v1, self.direcao) ) 
+        v = Operacoes.Subtracao_vetores(v1, v2)
     
         a = Operacoes.ProdutoEscalar(w, w)
         b = 2*Operacoes.ProdutoEscalar(v, w)
