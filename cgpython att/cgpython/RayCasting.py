@@ -29,9 +29,9 @@ def rayCasting():
          Raio2 = Raio(observer, PontoTela)
          objint = False
          distanciaorig = 10000
-         for t in list_obj:           
+         for t in list_obj:
             p_int = intercecao(t,Raio2)
-            if p_int != math.inf:               
+            if p_int != math.inf:
                if Operacoes.DistanciaEntrePontos(observer, p_int) < distanciaorig:
                   distanciaorig = Operacoes.DistanciaEntrePontos(observer, p_int)
                   obj_prox = t

@@ -9,4 +9,6 @@ def intercecao(objeto,raio):
         pt1 = objeto.IntercecaoRaioCilindro(raio)
     if objeto.tipo == "cone":
         pt1 = objeto.IntercecaoRaioCone(raio)
+    if objeto.tipo == "malha":
+        pt1 = objeto.IntersecaoRaioMalha(raio)
     return pt1
