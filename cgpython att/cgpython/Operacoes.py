@@ -45,6 +45,7 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
         Ld = Vetor(0,0,0)
         Le = Vetor(0,0,0)
         vetor_direcao = getattr(Raio1,"Direcao")
+        
         n = objeto.Calcular_Normal(t)
         for luz in list_luz:
             if luz.tipo == "direcional":

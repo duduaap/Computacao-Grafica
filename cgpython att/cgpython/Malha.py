@@ -6,7 +6,7 @@ class Malha:
         self.material = material
         self.m = m
         self.tipo = tipo
-        return 
+        return
     
     def checar_ponto_face(self,ponto,face):
         c1 = Operacoes.ProdutoEscalar(Operacoes.ProdutoVetorial(Operacoes.Subtracao_vetores(face.ponto3,ponto),Operacoes.Subtracao_vetores(face.ponto1,ponto)),face.Calcular_Normal())/Operacoes.ProdutoEscalar(Operacoes.ProdutoVetorial(Operacoes.Subtracao_vetores(face.ponto1,face.ponto2),Operacoes.Subtracao_vetores(face.ponto1,face.ponto3)),face.Calcular_Normal())
@@ -22,8 +22,9 @@ class Malha:
         for i in self.listaFaces:
             if self.checar_ponto_face(ponto,i) == True:
                 norm = i.Calcular_Normal()
-                return norm
-            
+                print(norm.x,norm.y,norm.z)
+                return Operacoes.NormalizaVetor(norm)
+
     def IntersecaoRaioMalha(self,raio):
         distanciaobsv = 100000
         ponto_intersecao = math.inf

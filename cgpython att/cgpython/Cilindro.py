@@ -22,6 +22,7 @@ class Cilindro:
         return PP
 
     def IntercecaoRaioCilindro(self, raio1):
+        
         D = raio1.Direcao
         origem = raio1.Origem
         prod_escalar = Operacoes.ProdutoEscalar(D, self.direcao)
