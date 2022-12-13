@@ -2,7 +2,8 @@ from asyncio.windows_events import NULL
 import Operacoes
 import numpy as np
 import math
-
+from Plano import Plano
+from Vetor import Vetor
 class Cilindro:
     def __init__(self,CentroBase,RaioBase,Altura,direcao,material, m,tipo):
         self.CentroBase = CentroBase
@@ -12,29 +13,49 @@ class Cilindro:
         self.material = material
         self.m = m
         self.tipo = tipo
+        self.local_intersecao = 0
         return
 
     def Calcular_Normal(self,ponto):
-        w = Operacoes.Subtracao_vetores(ponto,self.CentroBase)
-        aux1 = Operacoes.ProdutoEscalar(w,self.direcao)
-        aux2 = Operacoes.Vetor_escalar(self.direcao,aux1)
-        PP = Operacoes.Soma_vetores(self.CentroBase,aux2)
-        return PP
+        
+        if self.local_intersecao == "base":
+            return Operacoes.Vetor_escalar(self.direcao,-1)
+        
+        if self.local_intersecao == "topo":
+            return self.direcao
+        
+        if self.local_intersecao == "corpo":
+            w = Operacoes.Subtracao_vetores(ponto,self.CentroBase)
+            aux1 = Operacoes.ProdutoVetorial(w,self.direcao)
+            aux2 = Operacoes.ProdutoVetorial(self.direcao,aux1)
+            return Operacoes.NormalizaVetor(aux2)
 
     def IntercecaoRaioCilindro(self, raio1):
         
+        plano_base = Plano(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,-1),Vetor(0,0,0),1,"plano")
+        plano_topo = Plano(Operacoes.Soma_vetores(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,self.Altura)),self.direcao,Vetor(0,0,0),1,"plano")
+        
+        aux1 = plano_base.IntercecaoPlano(raio1)
+        aux2 = plano_topo.IntercecaoPlano(raio1)
+        
+        
+        if aux1 == math.inf or Operacoes.DistanciaEntrePontos(aux1,self.CentroBase) > self.RaioBase:
+            aux1 = math.inf
+        if aux2 == math.inf or Operacoes.DistanciaEntrePontos(aux2,Operacoes.Soma_vetores(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,self.Altura))) > self.RaioBase:
+            aux2 = math.inf
+        
         D = raio1.Direcao
         origem = raio1.Origem
+        
         prod_escalar = Operacoes.ProdutoEscalar(D, self.direcao)
-    
-        mult = Operacoes.Vetor_escalar(self.direcao, prod_escalar )
+        mult = Operacoes.Vetor_escalar(self.direcao, prod_escalar)
     
         w = Operacoes.Subtracao_vetores(D, mult)
 
  
-        v1 = Operacoes.Subtracao_vetores(origem, self.CentroBase )
-        v2 = Operacoes.Vetor_escalar(self.direcao,Operacoes.ProdutoEscalar(v1, self.direcao) ) 
-        v = Operacoes.Subtracao_vetores(v1, v2)
+        v1 = Operacoes.Subtracao_vetores(origem, self.CentroBase)
+        v2 = Operacoes.Vetor_escalar(self.direcao,Operacoes.ProdutoEscalar(v1, self.direcao)) 
+        v = Operacoes.Subtracao_vetores(v1,v2)
     
         a = Operacoes.ProdutoEscalar(w, w)
         b = 2*Operacoes.ProdutoEscalar(v, w)
@@ -43,20 +64,51 @@ class Cilindro:
         delta = (pow(b,2) - (4* a * c))
   
         if(delta < 0):
-            return math.inf
+            pt1 = math.inf
+        else:
+            t1 = (-b + math.sqrt(delta)) / (2*a)
+            t2 = (-b - math.sqrt(delta)) / (2*a)
     
-        t1 = (-b + math.sqrt(delta)) / (2*a)
-        t2 = (-b - math.sqrt(delta)) / (2*a)
-    
-        if(t1 < t2):
-            t2 = t1
+            if(t1 < t2):
+                t2 = t1
 
-        pt1 = Operacoes.EquacaoReta(t2,raio1)
-        w = Operacoes.Subtracao_vetores(pt1,self.CentroBase)
-        aux3 = Operacoes.ProdutoEscalar(w,self.direcao)
+            pt1 = Operacoes.EquacaoReta(t2,raio1)
+
+            w = Operacoes.Subtracao_vetores(pt1,self.CentroBase)
+            aux3 = Operacoes.ProdutoEscalar(w,self.direcao)
         
-        if aux3 > self.Altura or aux3 < 0:
-            return math.inf
+            if aux3 > self.Altura or aux3 < 0:
+                pt1 = math.inf
+        
+        
+        if aux1 == math.inf:
+            dist_aux1 = math.inf
+        else:
+            dist_aux1 = Operacoes.DistanciaEntrePontos(aux1,origem)
+            
+            
+        if aux2 == math.inf:
+            dist_aux2 = math.inf 
+        else:
+            dist_aux2 = Operacoes.DistanciaEntrePontos(aux2,origem)
+            
+            
+        if pt1 == math.inf:
+            dist_pt1 = math.inf
+        else:
+            dist_pt1 = Operacoes.DistanciaEntrePontos(pt1,origem)
+        
+        
+        self.local_intersecao = "corpo"
+        
+        if dist_aux1 < dist_aux2 and dist_aux1 < dist_pt1:
+            pt1 = aux1
+            self.local_intersecao = "base"
+            
+        if dist_aux2 < dist_aux1 and dist_aux2 < dist_pt1:
+            pt1 = aux2
+            self.local_intersecao = "topo"
+
         return  pt1
     
     

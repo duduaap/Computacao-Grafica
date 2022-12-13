@@ -54,9 +54,12 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
             else:
                 l = NormalizaVetor(Subtracao_vetores(getattr(luz,"posicao"),t))
                 int_luz = Raio(t, NormalizaVetor(Subtracao_vetores(luz.posicao,t)))
+                
             cor = True
+            
             for obj in list_obj:
                 aux2 = intercecao(obj,int_luz)
+                
                 if aux2 != math.inf:
                     if luz.tipo == "direcional":
                         if DistanciaEntrePontos(aux2, t) > 0.0001:
@@ -64,11 +67,14 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
                     else:
                         if DistanciaEntrePontos(aux2, t) < DistanciaEntrePontos(t,luz.posicao) and DistanciaEntrePontos(aux2, t) > 0.0001:
                             cor = False
+                            
             luz_dentro = True
             if luz.tipo == "spot":
                 cosalfa = -(ProdutoEscalar(l,luz.direcao))
                 if cosalfa < math.cos(luz.abertura):
                     luz_dentro = False
+                    
+                    
             if cor != False and luz_dentro == True:
                 Ld = Soma_vetores(Ld,Vetor_escalar(Operacao_Arroba((getattr(luz, "intensidade")),objeto.material),max(ProdutoEscalar(l,n),0)))
                 v = Vetor(- getattr(vetor_direcao,"x"), - getattr(vetor_direcao,"y"),- getattr(vetor_direcao,"z"))
@@ -77,6 +83,7 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
                 Le =  Soma_vetores(Le,Vetor_escalar(Operacao_Arroba((getattr(luz, "intensidade")),objeto.material), (max(ProdutoEscalar(r,v),0))**objeto.m))
                 if luz.tipo == "spot":
                     Le = Vetor_escalar(Le, cosalfa)
+                
                 
         La = Operacao_Arroba(Vetor(0.3,0.3,0.3),objeto.material)
         L = Soma_vetores(Soma_vetores(La,Le),Ld)

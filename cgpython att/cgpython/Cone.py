@@ -1,5 +1,7 @@
 import Operacoes
 import math
+from Plano import Plano
+from Vetor import Vetor
 class Cone:
     def __init__(self,CentroBase,RaioBase,Altura,direcao,material,m,tipo):
         h_dc = Operacoes.Vetor_escalar(direcao,Altura )
@@ -11,17 +13,28 @@ class Cone:
         self.material = material
         self.m = m
         self.tipo = tipo
+        self.local_intersecao = 0
         return
 
 
     def Calcular_Normal(self,ponto):
-        w2 = Operacoes.Subtracao_vetores(self.v,ponto)
-        Nt = Operacoes.ProdutoVetorial(w2,self.direcao)
-        N = Operacoes.ProdutoVetorial(w2,Nt)
-        normal = Operacoes.NormalizaVetor(N)
-        return normal
+        if self.local_intersecao == "base":
+            return Operacoes.Vetor_escalar(self.direcao,-1)
+        else:
+            w2 = Operacoes.Subtracao_vetores(self.v,ponto)
+            Nt = Operacoes.ProdutoVetorial(w2,self.direcao)
+            N = Operacoes.ProdutoVetorial(w2,Nt)
+            normal = Operacoes.NormalizaVetor(N)
+            return normal
 
     def IntercecaoRaioCone(self, raio):
+        
+        plano_base = Plano(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,-1),Vetor(0,0,0),1,"plano")
+        aux1 = plano_base.IntercecaoPlano(raio)
+        
+        if aux1 == math.inf or Operacoes.DistanciaEntrePontos(aux1,self.CentroBase) > self.RaioBase:
+            aux1 = math.inf
+        
         observer = raio.Origem
         D = raio.Direcao
 
@@ -41,30 +54,41 @@ class Cone:
 
         delta = (pow(b,2) - (4* a * c))
 
-        if(a==0):
-            if(b==0):
-                return math.inf
-        if(delta < 0):
-            return math.inf
         
-        t1 = (-b + math.sqrt(delta)) / (2*a)
-        t2 = (-b - math.sqrt(delta)) / (2*a)
-
-        if(t1 > 0 and t2 > 0):
-            if(t1 < t2):
-                t2 = t1
-            pt1 = Operacoes.EquacaoReta(t2,raio)
-
-        if(t1 < 0 and t2 > 0):
-            pt1 = Operacoes.EquacaoReta(t2,raio)
+        if(delta < 0) or (a == 0 and b ==0):
+            pt1 = math.inf
         else:
-            pt1 = Operacoes.EquacaoReta(t1,raio)
+            t1 = (-b + math.sqrt(delta)) / (2*a)
+            t2 = (-b - math.sqrt(delta)) / (2*a)
+
+            if(t1 > 0 and t2 > 0):
+                if(t1 < t2):
+                    t2 = t1
+                pt1 = Operacoes.EquacaoReta(t2,raio)
+
+            if(t1 < 0 and t2 > 0):
+                pt1 = Operacoes.EquacaoReta(t2,raio)
+            else:
+                pt1 = Operacoes.EquacaoReta(t1,raio)
             
-        w2 = Operacoes.Subtracao_vetores(pt1,self.v)
-        aux3 = Operacoes.ProdutoEscalar(w2,self.direcao)
+            w2 = Operacoes.Subtracao_vetores(pt1,self.CentroBase)
+            aux3 = Operacoes.ProdutoEscalar(w2,self.direcao)
         
-        if aux3 > self.Altura or aux3 < 0:
+            if aux3 > self.Altura or aux3 < 0:
             
-            return math.inf   
+                pt1 = math.inf   
+
+        if aux1 == math.inf:
+            dist_aux1 = math.inf
+        else:
+            dist_aux1 = Operacoes.DistanciaEntrePontos(aux1,observer)
+        if pt1 == math.inf:
+            dist_pt1 = math.inf
+        else:
+            dist_pt1 = Operacoes.DistanciaEntrePontos(pt1,observer)
         
+        self.local_intersecao = "corpo"
+        if dist_aux1 < dist_pt1:
+            pt1 = aux1
+            self.local_intersecao = "base"   
         return pt1
