@@ -8,3 +8,7 @@ class Luz_Spot:
         self.abertura = abertura
         self.tipo = tipo
         return
+    
+    def mundoParaCamera(self, matriz):
+        self.posicao = Operacoes.mult_matriz_ponto(matriz, self.posicao)
+        self.direcao = Operacoes.NormalizaVetor(Operacoes.mult_matriz_vetor(matriz, self.direcao))

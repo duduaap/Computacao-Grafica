@@ -1,6 +1,7 @@
 from Operacoes import ProdutoVetorial
 from Operacoes import Subtracao_vetores
 from Operacoes import NormalizaVetor
+from Operacoes import mult_matriz_ponto
 from Plano import Plano
 from Vetor import Vetor
 class Face:
@@ -17,3 +18,8 @@ class Face:
     
     def Calcular_Normal(self):
         return self.normal
+    
+    def mundoParaCamera(self, matriz):
+        self.ponto1 = mult_matriz_ponto(matriz, self.ponto1)
+        self.ponto2 = mult_matriz_ponto(matriz, self.ponto2)
+        self.ponto3 = mult_matriz_ponto(matriz, self.ponto3)

@@ -33,6 +33,8 @@ class Esfera:
             
             if(Operacoes.DistanciaEntrePontos(pt1,posicaoOlhoObservador) > Operacoes.DistanciaEntrePontos(pt2,posicaoOlhoObservador)):
                 pt1 = pt2
+                
+                
         elif(delta == 0):
             t1 = ((-b) + np.sqrt(delta)) / ( a)
             pt1 = Operacoes.EquacaoReta(t1,Raio1)
@@ -43,7 +45,10 @@ class Esfera:
 
     def Calcular_Normal(self,ponto):
         return Operacoes.NormalizaVetor(Operacoes.Subtracao_vetores(ponto,getattr(self,"CenterEsf")))
-
+    
+    def mundoParaCamera(self, matriz):
+        
+        self.CenterEsf = Operacoes.mult_matriz_ponto(matriz, self.CenterEsf)
     
     
     

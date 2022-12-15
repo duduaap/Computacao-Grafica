@@ -5,7 +5,7 @@ class Plano:
     def __init__(self, p_pi, n_bar, material, m, tipo):
         self.tipo = tipo
         self.p_pi = p_pi
-        self.n_bar = n_bar
+        self.n_bar = Operacoes.NormalizaVetor(n_bar)
         self.material = material
         self.m = m
         return
@@ -30,3 +30,7 @@ class Plano:
      
     def Calcular_Normal(self, t):
         return self.n_bar
+    
+    def mundoParaCamera(self, matriz):
+        self.p_pi = Operacoes.mult_matriz_ponto(matriz, self.p_pi)
+        self.n_bar = Operacoes.NormalizaVetor(Operacoes.mult_matriz_vetor(matriz, self.n_bar))

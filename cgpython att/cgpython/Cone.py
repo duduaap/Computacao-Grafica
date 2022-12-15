@@ -14,6 +14,7 @@ class Cone:
         self.m = m
         self.tipo = tipo
         self.local_intersecao = 0
+        self.plano_base = Plano(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,-1),self.material,self.m,"plano")
         return
 
 
@@ -26,11 +27,21 @@ class Cone:
             N = Operacoes.ProdutoVetorial(w2,Nt)
             normal = Operacoes.NormalizaVetor(N)
             return normal
+        
+    def reCalculaPlanos(self):
+        basePlano_cone = Plano(self.CentroBase, Operacoes.Vetor_escalar(self.direcao,-1), self.material,self.m,"plano")
+        self.plano_base = basePlano_cone
+    
+    def mundoParaCamera(self, matriz):
+        self.v = Operacoes.mult_matriz_ponto(matriz, self.v)
+        self.CentroBase = Operacoes.mult_matriz_ponto(matriz, self.CentroBase)
+        self.direcao = Operacoes.NormalizaVetor(Operacoes.mult_matriz_vetor(matriz, self.direcao))
+
+        self.reCalculaPlanos()
 
     def IntercecaoRaioCone(self, raio):
         
-        plano_base = Plano(self.CentroBase,Operacoes.Vetor_escalar(self.direcao,-1),Vetor(0,0,0),1,"plano")
-        aux1 = plano_base.IntercecaoPlano(raio)
+        aux1 = self.plano_base.IntercecaoPlano(raio)
         
         if aux1 == math.inf or Operacoes.DistanciaEntrePontos(aux1,self.CentroBase) > self.RaioBase:
             aux1 = math.inf

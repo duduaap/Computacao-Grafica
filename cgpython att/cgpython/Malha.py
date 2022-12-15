@@ -22,7 +22,7 @@ class Malha:
         for i in self.listaFaces:
             if self.checar_ponto_face(ponto,i) == True:
                 norm = i.Calcular_Normal()
-                print(norm.x,norm.y,norm.z)
+                
                 return Operacoes.NormalizaVetor(norm)
 
     def IntersecaoRaioMalha(self,raio):
@@ -36,6 +36,9 @@ class Malha:
                         distanciaobsv = Operacoes.DistanciaEntrePontos(inte, raio.Origem)
                         ponto_intersecao = inte
         return ponto_intersecao
-        
+    
+    def mundoParaCamera(self, matriz):
+        for face in self.listaFaces:
+            face.mundoParaCamera(matriz)
 
         

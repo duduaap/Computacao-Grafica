@@ -3,8 +3,7 @@ import numpy as np
 from Vetor import Vetor
 from Intercecoes import intercecao
 from Raio import Raio
-def Ponto(x, y, z):
-    return {'x': x, 'y': y, 'z': z}
+from Ponto import Ponto
 
 def ProdutoVetorial(vetor_A, vetor_B):
     x = vetor_A.y *vetor_B.z - vetor_A.z*vetor_B.y
@@ -95,3 +94,18 @@ def DecideCor(list_obj,objeto, Raio1, list_luz, t):
                 
 
         return Vetor_escalar(L,255)
+    
+    
+def mult_matriz_vetor(M, vetor):
+    x = M[0][0]*(getattr(vetor,"x")) + M[0][1]*(getattr(vetor,"y")) +M[0][2]*(getattr(vetor,"z"))
+    y = M[1][0]*(getattr(vetor,"x")) + M[1][1]*(getattr(vetor,"y")) +M[1][2]*(getattr(vetor,"z"))
+    z = M[2][0]*(getattr(vetor,"x")) + M[2][1]*(getattr(vetor,"y")) +M[2][2]*(getattr(vetor,"z"))
+    
+    return Vetor(x,y,z)
+
+def mult_matriz_ponto(M, vetor):
+    x = M[0][0]*(getattr(vetor,"x")) + M[0][1]*(getattr(vetor,"y")) +M[0][2]*(getattr(vetor,"z")) + M[0][3]
+    y = M[1][0]*(getattr(vetor,"x")) + M[1][1]*(getattr(vetor,"y")) +M[1][2]*(getattr(vetor,"z")) + M[1][3]
+    z = M[2][0]*(getattr(vetor,"x")) + M[2][1]*(getattr(vetor,"y")) +M[2][2]*(getattr(vetor,"z")) + M[2][3]
+    
+    return Ponto(x,y,z)

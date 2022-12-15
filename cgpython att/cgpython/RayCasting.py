@@ -8,16 +8,27 @@ from Luz_Pontual import Luz_Pontual
 import Operacoes
 import math
 from Intercecoes import intercecao
+from Camera import Camera
 def rayCasting():
    nCol = 500
    nLin = 500
-   janela = Janela(60, 60, -30)
+   janela = Janela(60, 60, 30)
+   posicao_c = Vetor(0,-20,0)
+   at = Vetor(0, 0, -100)
+   up = Vetor(0, 30, -100)
+   camera = Camera(posicao_c, at, up)
+   matriz = camera.matriz()
    list_luzes = listar_luzes()
-
+   for q in list_luzes:
+      q.mundoParaCamera(matriz)
    observer = Vetor(0,0,0)
    Dx = janela.wJanela/nCol
    Dy = janela.hJanela/nLin
    list_obj = listar_objetos()
+   for i in list_obj:
+      i.mundoParaCamera(matriz)
+      
+      
    image = Image.new(mode="RGB", size=(500, 500))
    pixels = image.load()
    obj_prox = 0
@@ -25,7 +36,7 @@ def rayCasting():
       for c in range (nCol):
          x = -(janela.wJanela/2) + (Dx/2) + (Dx*c)
          y = (janela.hJanela/2) - (Dy/2) - (Dy*l)
-         PontoTela = Operacoes.NormalizaVetor(Vetor(x, y, janela.dJanela))
+         PontoTela = Operacoes.NormalizaVetor(Vetor(x, y, -janela.dJanela))
          Raio2 = Raio(observer, PontoTela)
          objint = False
          distanciaorig = 10000

@@ -3,4 +3,4 @@ class Ponto:
         self.x = x
         self.y = y
         self.z = z        
-        return
+        pass
